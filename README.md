@@ -2,7 +2,7 @@
 
 ## Keywords
 
-BTC, ETH, LTC, BCH, Buda.com
+BTC, ETH, LTC, BCH, Buda.com, Cloud functions
 
 ## Descripcion
 
@@ -13,6 +13,9 @@ Esta es una función programada para autoinvertir en una criptomoneada utilizand
 Debes tener dinero en tu cuenta de buda, esta función ejecutará una orden de compra tipo market por el monto mínimo de acuerdo a la periodicidad que le indiques dentro de index.ts
 Cuenta de Firebase con blaze plan activado: https://firebase.google.com/pricing#blaze-calculator
 La ejecución de esta función debiese costar $0 mensual
+
+Si se desea invertir en más de una moneda a la vez, se recomienda clonar esta función para manejar la periodicidad y ejecución de compras por separado. 
+En tal caso recordar modificar el nombre de la función tanto en index.ts como en package.json
 
 ## Setup
 
