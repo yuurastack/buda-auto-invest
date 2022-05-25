@@ -44,8 +44,8 @@ exports.scheduledFunction = functions.pubsub.schedule("every 3 hours").onRun(asy
   };
 
   axios(config)
-      .then((response) => console.log("response", response.data))
-      .catch((error) => console.log("error", error.data));
+      .then((response: any) => console.log("response", response.data))
+      .catch((error: any) => console.log("error", error.data));
 
   return null;
 });
