@@ -11,6 +11,9 @@ const coinValues = {
 };
 
 exports.scheduledFunction = functions.pubsub.schedule("every 3 hours").onRun(async () => {
+  let amount: number;
+  let errorMarket = {};
+  let marketResponse = {} as MarketResponse;
   const marketId: "btc-clp" | "eth-clp" | "ltc-clp" | "bch-clp" = "btc-clp";
   const apiKey: string = process.env.API_KEY || "";
   const apiSecret: string = process.env.API_SECRET || "";
@@ -20,8 +23,13 @@ exports.scheduledFunction = functions.pubsub.schedule("every 3 hours").onRun(asy
   }
   const path: string = "/api/v2/markets/" + marketId + "/orders";
   const url:string = "https://www.buda.com" + path;
-  const marketResponse: MarketResponse = await axios.get("https://www.buda.com/api/v2/markets/" + marketId);
-  const amount = parseFloat(marketResponse.data.market.minimum_order_amount[0]) || coinValues[marketId];
+  [marketResponse, errorMarket] = await safePromise(axios.get("https://www.buda.com/api/v2/markets/" + marketId));
+  if (errorMarket) {
+    console.log("error getting market info, assigning default values");
+    amount = coinValues[marketId];
+  } else {
+    amount = parseFloat(marketResponse.data.market.minimum_order_amount[0]);
+  }
   const payLoad: OrderPayLoad = {
     type: "Bid",
     price_type: "market",
@@ -56,4 +64,9 @@ function getMsg(payload: OrderPayLoad, path: string, nonce: number, method: stri
   const base64data = buff.toString("base64");
   const components = [method, path, base64data, nonce];
   return components.join(" ");
+}
+
+// better error handling for promises using async
+async function safePromise(promise: Promise<any>):Promise<any[]> {
+  return promise.then((data) => [data]).catch((error) => [null, error]);
 }
