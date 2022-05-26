@@ -11,8 +11,8 @@ const coinValues = {
 };
 
 exports.scheduledFunction = functions.pubsub.schedule("every 3 hours").onRun(async () => {
-  const apiKey: string = process.env.API_KEY || "a";
-  const apiSecret: string = process.env.API_SECRET || "a";
+  const apiKey: string = process.env.API_KEY || "";
+  const apiSecret: string = process.env.API_SECRET || "";
   if (!apiKey || !apiSecret) {
     console.log("apiKey or apiSecret not present");
     return null;
