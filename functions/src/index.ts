@@ -26,7 +26,7 @@ exports.scheduledFunction = functions.pubsub.schedule("every 3 hours").onRun(asy
   const urlMarket: string = "https://www.buda.com/api/v2/markets/" + marketId;
   const configMkt = {
     method: "GET",
-    url: urlMarket
+    url: urlMarket,
   };
   [marketResponse, errorMarket] = await safePromise(axios(configMkt));
   if (errorMarket) {
