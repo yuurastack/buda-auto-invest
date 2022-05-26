@@ -11,19 +11,24 @@ const coinValues = {
 };
 
 exports.scheduledFunction = functions.pubsub.schedule("every 3 hours").onRun(async () => {
-  let amount: number;
-  let errorMarket = {};
-  let marketResponse = {} as MarketResponse;
-  const marketId: "btc-clp" | "eth-clp" | "ltc-clp" | "bch-clp" = "btc-clp";
-  const apiKey: string = process.env.API_KEY || "";
-  const apiSecret: string = process.env.API_SECRET || "";
+  const apiKey: string = process.env.API_KEY || "a";
+  const apiSecret: string = process.env.API_SECRET || "a";
   if (!apiKey || !apiSecret) {
     console.log("apiKey or apiSecret not present");
     return null;
   }
+  let amount: number;
+  let errorMarket = {};
+  let marketResponse = {} as MarketResponse;
+  const marketId: "btc-clp" | "eth-clp" | "ltc-clp" | "bch-clp" = "btc-clp";
   const path: string = "/api/v2/markets/" + marketId + "/orders";
   const url:string = "https://www.buda.com" + path;
-  [marketResponse, errorMarket] = await safePromise(axios.get("https://www.buda.com/api/v2/markets/" + marketId));
+  const urlMarket: string = "https://www.buda.com/api/v2/markets/" + marketId;
+  const configMkt = {
+    method: "GET",
+    url: urlMarket
+  };
+  [marketResponse, errorMarket] = await safePromise(axios(configMkt));
   if (errorMarket) {
     console.log("error getting market info, assigning default values");
     amount = coinValues[marketId];
