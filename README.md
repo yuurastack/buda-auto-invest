@@ -4,7 +4,7 @@
 
 BTC, Bitcoin, ETH, LTC, BCH, Buda.com, Cloud functions, compra programada recurrente
 
-## Descripcion
+## Descripción
 
 Esta es una función programada para auto invertir en una criptomoneada utilizando la plataforma buda.com
 
